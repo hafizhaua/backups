@@ -1,0 +1,19 @@
+# version: '1.0'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
+            args:
+                - COMPOSER_AUTH={"github-oauth":{"github.com":"${GITHUB_TOKEN}"}}
+        env_file:
+            - .env
+        image: pkt-prism-production
+        container_name: pkt-prism-production
+        restart: always
+        ports:
+            - 7000:80 # http
+            - 7001:443 # https
+            - 7002:8080 # websocket
+        volumes:
+            - .:/var/www/html
